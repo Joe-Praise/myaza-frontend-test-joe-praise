@@ -22,8 +22,20 @@ Tech stack i used on the project were
 - Lucide react for a limited number of icons
 - Formik and Yup for form handling and validation
 
-Adios!
+Application is mobile responsive. feel free to check that out.
 
-To run the application hit 'npm run dev' on your terminal
-OR
-follow the LINK:()
+Note: For the mobile view i opted out from using the basic hambuger menu. so if you look at the top left corner of your screen you'd see an icon. click it to reveal the nav bar.
+
+I had fun running this one.
+
+Till we meet again. Adios!
+
+To run the application
+
+- clone this project
+- change .env.example to .env.local(Yeah. I AM BATMAN)
+- run npm i
+- hit 'npm run dev' on your terminal
+- FEAST!
+  OR
+  follow the LINK:(https://myaza-frontend-test-joe-praise.vercel.app/)
