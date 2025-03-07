@@ -62,7 +62,7 @@ export default function CreditCardCarousel() {
         <div className='flex'>
           {cards.map((card, index) => (
             <div className='flex-[0_0_100%] px-2 font-karla' key={index}>
-              <Card className='relative border-none h-[197.6px] bg-gradient-to-br from-purple-500 to-blue-500 text-white pt-[32px] px-[30.24px] rounded-2xl shadow-lg'>
+              <Card className='relative border-none h-[197.6px] bg-gradient-to-br from-purple-500 to-blue-500 text-white pt-[32px] md:px-[30.24px] rounded-2xl shadow-lg'>
                 <CardContent className='flex flex-col justify-between h-full'>
                   <div className='flex justify-between'>
                     <div>

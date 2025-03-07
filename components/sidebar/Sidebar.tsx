@@ -1,7 +1,6 @@
 'use client';
 
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
-import { Button } from '../ui/Button';
 import { ProfileMenu } from './profile-menu';
 import { cn } from '@/lib/utils';
 import { useNavBarStore } from '@/store';
@@ -51,10 +50,25 @@ function Sidebar(props: ISidebarProps) {
         )}
       >
         {/* Toggle Button (Only for mobile) */}
-        <div className='absolute top-2 -right-[25px] z-50 md:hidden'>
-          <Button variant='ghost' size='icon' onClick={toggleSidebar}>
-            {isOpen ? <PanelLeftClose /> : <PanelLeftOpen />}
-          </Button>
+        <div className='absolute top-0 -right-[32px] z-50 md:hidden'>
+          <button
+            onClick={toggleSidebar}
+            className='bg-nav-active rounded-[8px] p-1'
+          >
+            {isOpen ? (
+              <PanelLeftClose
+                width={45}
+                height={30}
+                className='text-[50px] text-primary-100'
+              />
+            ) : (
+              <PanelLeftOpen
+                width={45}
+                height={30}
+                className='text-[50px] text-primary-100'
+              />
+            )}
+          </button>
         </div>
 
         <main
