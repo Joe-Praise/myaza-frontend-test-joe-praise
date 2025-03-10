@@ -6,7 +6,8 @@ import masterCard from '@/public/images/mastercard_logo.png';
 import Image from 'next/image';
 import ellipsisTop from '@/public/svg/Ellipse top.svg';
 import ellipsisBottom from '@/public/svg/Ellipse bottom.svg';
-import { formatAmount } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import CountUp from 'react-countup';
 
 const cards = [
   {
@@ -62,7 +63,7 @@ export default function CreditCardCarousel() {
         <div className='flex'>
           {cards.map((card, index) => (
             <div className='flex-[0_0_100%] px-2 font-karla' key={index}>
-              <Card className='relative border-none h-[197.6px] bg-gradient-to-br from-purple-500 to-blue-500 text-white pt-[32px] md:px-[30.24px] rounded-2xl shadow-lg'>
+              <Card className='relative border-none h-[197.6px] bg-gradient-to-br from-purple-500 to-blue-500 text-white pt-[32px] md:px-[15.24px] rounded-2xl shadow-lg'>
                 <CardContent className='flex flex-col justify-between h-full'>
                   <div className='flex justify-between'>
                     <div>
@@ -70,7 +71,15 @@ export default function CreditCardCarousel() {
                         Current Balance
                       </span>
                       <h2 className='text-3xl font-medium text-[28px] leading-[32.73px]'>
-                        ${formatAmount(card.balance)}
+                        ${/* {formatAmount(card.balance)} */}
+                        <CountUp
+                          end={card.balance}
+                          enableScrollSpy
+                          decimalPlaces={2}
+                          decimals={2}
+                          decimal='.'
+                          duration={2}
+                        />
                       </h2>
                     </div>
                     <div>
@@ -90,16 +99,50 @@ export default function CreditCardCarousel() {
                     </span>
                   </div>
 
-                  <Image
-                    src={ellipsisTop}
-                    alt=''
-                    className='absolute -top-2 -right-1 w-full max-w-[298.45px] h-[102.7px] rotate-[2.5deg]'
-                  />
-                  <Image
-                    src={ellipsisBottom}
-                    alt=''
-                    className='absolute -bottom-4 -left-1 w-full max-w-[298.45px] h-[102.7px] rotate-[6deg]'
-                  />
+                  <motion.div
+                    animate={{
+                      opacity: [0.35, 1, 0.35],
+                      filter: [
+                        'drop-shadow(0 0 5px rgba(168, 85, 247, 0.3))',
+                        'drop-shadow(0 0 15px rgba(59, 130, 246, 0.7))',
+                        'drop-shadow(0 0 5px rgba(168, 85, 247, 0.3))',
+                      ],
+                    }}
+                    transition={{
+                      duration: 2.5,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
+                    className='absolute -top-2 -right-1'
+                  >
+                    <Image
+                      src={ellipsisTop}
+                      alt=''
+                      className='w-full max-w-[298.45px] h-[102.7px] rotate-[2.5deg]'
+                    />
+                  </motion.div>
+                  <motion.div
+                    animate={{
+                      opacity: [0.35, 1, 0.35],
+                      filter: [
+                        'drop-shadow(0 0 5px rgba(168, 85, 247, 0.3))',
+                        'drop-shadow(0 0 15px rgba(59, 130, 246, 0.7))',
+                        'drop-shadow(0 0 5px rgba(168, 85, 247, 0.3))',
+                      ],
+                    }}
+                    transition={{
+                      duration: 2.5,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
+                    className='absolute -bottom-4 -left-1'
+                  >
+                    <Image
+                      src={ellipsisBottom}
+                      alt=''
+                      className='w-full max-w-[298.45px] h-[102.7px] rotate-[6deg]'
+                    />
+                  </motion.div>
                 </CardContent>
               </Card>
             </div>

@@ -3,10 +3,12 @@ import { NextRequest, NextResponse } from 'next/server';
 export function middleware(req: NextRequest) {
   const email = req.cookies.get('email')?.value;
 
+  // console.log('Email Cookie:', req.cookies.get('email')?.value);
+
   // If the email cookie is missing, we redirect to /sign-in
   if (!email) {
     const url = new URL('/sign-in', req.nextUrl.origin);
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(new URL(url, req.nextUrl.origin));
   }
 
   // Continue as normal if email exists

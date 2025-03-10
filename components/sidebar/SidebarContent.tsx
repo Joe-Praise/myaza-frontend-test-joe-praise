@@ -7,17 +7,15 @@ import { Logo } from '../shared';
 import { Separator } from '../ui/seperator';
 import { Moon } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function SidebarContent() {
   const { setTheme } = useTheme();
   const [mode, setMode] = useState('light');
 
-  useMemo(() => {
+  useEffect(() => {
     setTheme(mode);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+  }, [mode, setTheme]);
   return (
     <section className='h-full flex flex-col gap-6 w-full'>
       <header className='flex items-center  mt-10 mb-[19px] mb:mb-[39.54px] ps-[28px] border-b-0 md:pt-0'>
@@ -53,13 +51,14 @@ export default function SidebarContent() {
         })}
 
         <button
-          className='flex justify-startt items-center gap-3 w-full rounded-[8px] mt-2 ps-[16px] py-2.5 hover:bg-nav-active hover:text-primary-100 hover:font-semibold bg-transparent leading-[18.7px]'
-          onClick={() => {
-            if (mode === 'dark') setMode('light');
-            else setMode('dark');
-          }}
+          className='flex justify-start items-center gap-3 w-full rounded-[8px] mt-2 ps-[16px] py-2.5 hover:bg-nav-active hover:text-primary-100 hover:font-semibold bg-transparent leading-[18.7px]'
+          onClick={() =>
+            setMode((prev) => (prev === 'dark' ? 'light' : 'dark'))
+          }
         >
-          <span>{<Moon />}</span>
+          <span>
+            <Moon />
+          </span>
           <span className='pt-1'>Dark Theme</span>
         </button>
       </section>

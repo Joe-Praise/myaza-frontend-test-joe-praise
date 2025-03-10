@@ -1,8 +1,9 @@
+'use client';
 import ApllicationHeader from '@/components/dashboard/apllication-header';
 import WalletCard from '@/components/dashboard/wallet-card';
 import BentoWrapper from '@/components/shared/BentoWrapper';
 import { Button } from '@/components/ui/Button';
-import { cn, formatAmount } from '@/lib/utils';
+import { cn, containerVariants } from '@/lib/utils';
 import { CircleEllipsis, PlusIcon } from 'lucide-react';
 import NG from '@/public/images/NG.png';
 import UK from '@/public/images/UK.png';
@@ -11,6 +12,8 @@ import adobeIcon from '@/public/images/adobe icon.png';
 import { TableCell, TableHead, TableRow } from '@/components/ui/table';
 import Image from 'next/image';
 import { TableComponent } from '@/components/shared/table';
+import { motion } from 'framer-motion';
+import CountUp from 'react-countup';
 
 enum status {
   deposited = 'Deposited',
@@ -131,7 +134,12 @@ const Page = () => {
         desc='Manage all your wallets from here'
       />
 
-      <div className='mt-6 flex flex-col gap-6'>
+      <motion.div
+        initial='hidden'
+        animate='visible'
+        variants={containerVariants}
+        className='mt-6 flex flex-col gap-6'
+      >
         <BentoWrapper className='w-full min-h-[230px]  flex flex-col justify-between font-karla'>
           <div className='flex justify-between items-end'>
             <div className='flex flex-col gap-2'>
@@ -139,7 +147,14 @@ const Page = () => {
                 Your consolidated balance
               </p>
               <p className='font-semibold text-[23px] md:text-[28px] leading-[28.06px]'>
-                ${formatAmount(34780267.08)}
+                ${' '}
+                <CountUp
+                  end={34780267.08}
+                  decimalPlaces={2}
+                  decimals={2}
+                  decimal='.'
+                  duration={2}
+                />
               </p>
             </div>
 
@@ -156,7 +171,7 @@ const Page = () => {
             </div>
           </div>
 
-          <div className='flex overflow-auto w-full gap-[24px]'>
+          <div className='flex overflow-auto w-full gap-[24px] overflow-y-hidden'>
             {wallets.map((wallet, index) => (
               <WalletCard
                 key={`${wallet}_${index}__key`}
@@ -180,9 +195,14 @@ const Page = () => {
               See All
             </Button>
           </div>
-          <TableComponent TBodyData={TBodyData} THeaderData={THeaderData} />
+          <TableComponent
+            TBodyData={TBodyData}
+            THeaderData={THeaderData}
+            totalNoOfRows={5}
+            totalNoOfCells={5}
+          />
         </BentoWrapper>
-      </div>
+      </motion.div>
     </div>
   );
 };

@@ -21,3 +21,11 @@ export const formatAmount = (amount: number | string) => {
   const formattedAmount = amount.toLocaleString('en-US');
   return formattedAmount;
 };
+
+export const containerVariants = {
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};

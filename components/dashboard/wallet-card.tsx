@@ -1,6 +1,7 @@
-import { cn, formatAmount } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import BentoWrapper from '../shared/BentoWrapper';
 import Image, { StaticImageData } from 'next/image';
+import CountUp from 'react-countup';
 
 interface IWalletCardProps {
   label: string;
@@ -22,7 +23,15 @@ const WalletCard = (props: IWalletCardProps) => {
         <div className='w-[200px] flex flex-col justify-between '>
           <p className=' leading-[24px] text-white'>{label}</p>
           <p className='font-medium text-xs leading-[20px] text-gray-200'>
-            Balance: {formatAmount(balance)}
+            Balance:{' '}
+            <CountUp
+              end={balance}
+              decimalPlaces={2}
+              decimals={2}
+              decimal='.'
+              duration={2}
+            />
+            {/* {formatAmount(balance)} */}
           </p>
         </div>
       </div>

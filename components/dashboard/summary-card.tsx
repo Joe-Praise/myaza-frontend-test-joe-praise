@@ -1,7 +1,8 @@
 import React from 'react';
 import BentoWrapper from '../shared/BentoWrapper';
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
-import { cn, formatAmount } from '@/lib/utils';
+import { cn } from '@/lib/utils';
+import CountUp from 'react-countup';
 
 export enum Trend {
   rise = 'rise',
@@ -42,7 +43,17 @@ const SummaryCard = (props: ISummaryCardProps) => {
           <p className='text-sm leading-[20px] text-purple-200'>{label}</p>
           <p className='font-semibold text-2xl leading-[28.06px]'>
             {currencySymbol}
-            {formatAmount(amount)}
+
+            <CountUp
+              end={amount}
+              // enableScrollSpy
+              decimalPlaces={3}
+              decimals={3}
+              decimal='.'
+              // scrollSpyDelay={1000}
+              duration={2}
+            />
+            {/* {formatAmount(amount)} */}
           </p>
         </div>
         <div className=''>

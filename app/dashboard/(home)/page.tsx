@@ -1,17 +1,20 @@
+'use client';
 import { BarChartComponent } from '@/components/charts/bar-chart';
 import ApllicationHeader from '@/components/dashboard/apllication-header';
 import SummaryCard, { Trend } from '@/components/dashboard/summary-card';
-import BentoWrapper from '@/components/shared/BentoWrapper';
 import CreditCardCarousel from '@/components/shared/credit-card-carousel';
 import { TableComponent } from '@/components/shared/table';
 import { Button } from '@/components/ui/Button';
 import { TableCell, TableHead, TableRow } from '@/components/ui/table';
-import { cn, formatAmount } from '@/lib/utils';
+import { cn, containerVariants } from '@/lib/utils';
 import Image from 'next/image';
 import adobeIcon from '@/public/images/adobe icon.png';
 import levisIcon from '@/public/images/levis icon.png';
 import mcdonaldsIcon from '@/public/images/mcdonalds icon.png';
 import { ActivityChart } from '@/components/charts/activity-chart';
+import { motion } from 'framer-motion';
+import BentoWrapper from '@/components/shared/BentoWrapper';
+import CountUp from 'react-countup';
 
 enum status {
   deposited = 'Deposited',
@@ -57,6 +60,12 @@ const invoices = [
 const headers = ['Name', 'Date', 'Amount', 'Status'];
 
 const Page = () => {
+  // useCountUp({
+  //   ref: 'counter',
+  //   end: 1,
+  //   enableScrollSpy: true,
+  //   scrollSpyDelay: 1000,
+  // });
   const THeaderData = (
     <TableRow className='border-none hover:bg-transparent'>
       {headers.map((header, index) => (
@@ -108,9 +117,14 @@ const Page = () => {
         desc='Here’s what’s happening with your store today.'
       />
 
-      <div className='flex flex-wrap w-full gap-10 mt-10'>
-        <BentoWrapper className='w-full flex flex-col min-h-[465px] gap-10 md:basis-[51.8%] bg-transparent p-0'>
-          <div className='flex overflow-auto md:justify-center w-full gap-[24px]'>
+      <motion.div
+        initial='hidden'
+        animate='visible'
+        variants={containerVariants}
+        className='flex flex-wrap w-full gap-10 mt-10'
+      >
+        <div className='w-full flex flex-col min-h-[465px] gap-10 md:basis-[51.8%] p-0'>
+          <div className='flex overflow-auto md:justify-center w-full gap-[24px] overflow-y-hidden'>
             <SummaryCard
               trend={Trend.rise}
               label='Total Income'
@@ -126,10 +140,10 @@ const Page = () => {
               currencySymbol={'$'}
             />
           </div>
-          <BentoWrapper className='w-full h-[341px] p-0'>
+          <BentoWrapper className='w-[97.7%] mx-auto h-[341px] p-1'>
             <BarChartComponent />
           </BentoWrapper>
-        </BentoWrapper>
+        </div>
 
         <BentoWrapper className='w-full min-h-[465px] md:basis-[43.5%] flex flex-col justify-between font-karla'>
           <div className='flex flex-col gap-4'>
@@ -142,7 +156,17 @@ const Page = () => {
                   Card Balance
                 </p>
                 <p className='font-semibold text-2xl leading-[28.06px]'>
-                  ${formatAmount(15595.015)}
+                  $
+                  <CountUp
+                    end={15595.015}
+                    decimalPlaces={3}
+                    decimals={3}
+                    decimal='.'
+                    duration={2}
+                  />
+                  {/* {
+                  formatAmount(15595.015)
+                } */}
                 </p>
               </div>
             </div>
@@ -160,25 +184,32 @@ const Page = () => {
           </div>
         </BentoWrapper>
 
-        <BentoWrapper className='w-full min-h-[362px] md:basis-[51.8%] font-karla flex flex-col gap-5'>
-          <div className='flex justify-between items-center gap-4'>
-            <p className='text-white font-semibold text-[24px] leading-[28.06px]'>
-              Recent Transactions
-            </p>
-            <Button
-              variant={'ghost'}
-              className='text-sm h-[28px] font-semibold leading-[20px] text-purple-200 hover:bg-transparent hover:text-purple-200'
-            >
-              See All
-            </Button>
-          </div>
-          <TableComponent TBodyData={TBodyData} THeaderData={THeaderData} />
-        </BentoWrapper>
+        <div className='w-full  min-h-[362px] font-karla  md:basis-[51.8%] p-0  '>
+          <BentoWrapper className='w-[97.7%] mx-auto flex flex-col gap-5 h-full'>
+            <div className='flex justify-between items-center gap-4'>
+              <p className='text-white font-semibold text-[24px] leading-[28.06px]'>
+                Recent Transactions
+              </p>
+              <Button
+                variant={'ghost'}
+                className='text-sm h-[28px] font-semibold leading-[20px] text-purple-200 hover:bg-transparent hover:text-purple-200'
+              >
+                See All
+              </Button>
+            </div>
+            <TableComponent
+              TBodyData={TBodyData}
+              THeaderData={THeaderData}
+              totalNoOfRows={5}
+              totalNoOfCells={4}
+            />
+          </BentoWrapper>
+        </div>
 
         <BentoWrapper className='w-full min-h-[365px] md:basis-[43.5%]'>
           <ActivityChart />
         </BentoWrapper>
-      </div>
+      </motion.div>
     </div>
   );
 };
