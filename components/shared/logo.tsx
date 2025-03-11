@@ -18,7 +18,7 @@ const Logo = (props: ILogo) => {
   const { children } = props;
 
   return (
-    <div className='flex items-center justify-center gap-[5.91px] px-3 py-[19px]'>
+    <div className='flex items-center justify-center gap-[5.91px] px-3 md:py-[19px]'>
       {isMobile ? (
         <Link
           href='/dashboard'
