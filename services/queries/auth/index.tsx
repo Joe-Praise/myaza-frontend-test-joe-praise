@@ -25,8 +25,10 @@ const useLogin = (options = {}) => {
   function handleLogin() {
     successToast('Sign in successful');
     console.log('Redirecting to', routes.dashboard.entry.path);
-    router.push(routes.dashboard.entry.path);
-    window.location.href = routes.dashboard.entry.path;
+    setTimeout(() => {
+      router.push(routes.dashboard.entry.path);
+      window.location.href = routes.dashboard.entry.path;
+    }, 100);
   }
 
   const { mutate, isPending, data, isSuccess } = useMutation({
