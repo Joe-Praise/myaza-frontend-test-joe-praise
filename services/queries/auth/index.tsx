@@ -22,11 +22,12 @@ type Request = {
 const useLogin = (options = {}) => {
   const router = useRouter();
 
-  const handleLogin = () => {
+  function handleLogin() {
     successToast('Sign in successful');
     console.log('Redirecting to', routes.dashboard.entry.path);
     router.push(routes.dashboard.entry.path);
-  };
+    window.location.href = routes.dashboard.entry.path;
+  }
 
   const { mutate, isPending, data, isSuccess } = useMutation({
     mutationFn: async (args: Request) => {
@@ -36,6 +37,8 @@ const useLogin = (options = {}) => {
         setCookie(null, 'email', args.body.email, {
           maxAge: 7 * 24 * 60 * 60,
           path: '/',
+          secure: process.env.N === 'production',
+          sameSite: 'strict',
         });
       }
 
@@ -45,9 +48,10 @@ const useLogin = (options = {}) => {
     ...options,
     onSuccess: (response: any) => {
       console.log('Response:', response);
-      if (response.succeeded) {
-        handleLogin();
-      }
+      setTimeout(() => {
+        router.push(routes.dashboard.entry.path);
+        window.location.href = routes.dashboard.entry.path;
+      }, 100);
     },
     onError: (err: unknown) => {
       console.log('🚀 ~ useLogin ~ err:', err);
