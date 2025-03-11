@@ -24,11 +24,11 @@ const useLogin = (options = {}) => {
 
   function handleLogin() {
     successToast('Sign in successful');
-    console.log('Redirecting to', routes.dashboard.entry.path);
+    // console.log('Redirecting to', routes.dashboard.entry.path);
     setTimeout(() => {
       router.push(routes.dashboard.entry.path);
       window.location.href = routes.dashboard.entry.path;
-    }, 100);
+    }, 1000);
   }
 
   const { mutate, isPending, data, isSuccess } = useMutation({
@@ -39,7 +39,7 @@ const useLogin = (options = {}) => {
         setCookie(null, 'email', args.body.email, {
           maxAge: 7 * 24 * 60 * 60,
           path: '/',
-          secure: process.env.N === 'production',
+          secure: process.env.NEXT_PUBLIC_ENV === 'production',
           sameSite: 'strict',
         });
       }
@@ -53,7 +53,7 @@ const useLogin = (options = {}) => {
       setTimeout(() => {
         router.push(routes.dashboard.entry.path);
         window.location.href = routes.dashboard.entry.path;
-      }, 100);
+      }, 1000);
     },
     onError: (err: unknown) => {
       console.log('🚀 ~ useLogin ~ err:', err);
