@@ -1,6 +1,14 @@
 'use client';
 import arrowDown from '@/public/images/arrow-down-purple.png';
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import { motion } from 'framer-motion';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -15,10 +23,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-const chartData = [
+interface ChartData {
+  month: string;
+  income: number;
+  outcome: number;
+}
+
+const chartData: ChartData[] = [
   { month: 'January', income: 18, outcome: 8 },
   { month: 'February', income: 15, outcome: 20 },
   { month: 'March', income: 27, outcome: 12 },
@@ -77,7 +91,8 @@ const dates = [
 
 export function BarChartComponent() {
   const [date, setDate] = useState(dates[2].label);
-
+  const [animatedChartData, setAnimatedChartData] = useState<ChartData[]>([]);
+  const [animationKey, setAnimationKey] = useState<number>(0);
   const CustomTooltip = ({
     active,
     payload,
@@ -106,6 +121,11 @@ export function BarChartComponent() {
       </div>
     );
   };
+
+  useEffect(() => {
+    setAnimationKey((prev) => prev + 1);
+    setAnimatedChartData(chartData);
+  }, []);
 
   return (
     <Card className='bg-primary-100 h-full border-none font-karla w-full'>
@@ -154,47 +174,69 @@ export function BarChartComponent() {
         </CardTitle>
       </CardHeader>
       <CardContent className='h-full w-full'>
-        <ChartContainer
-          config={chartConfig}
-          className='w-full h-auto min-h-[200px] max-h-[257px]'
+        <motion.div
+          key={animationKey}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
         >
-          <BarChart
-            accessibilityLayer
-            data={chartData}
-            className='text-purple-200'
+          <ChartContainer
+            config={chartConfig}
+            className='w-full h-auto min-h-[200px] max-h-[257px]'
           >
-            <CartesianGrid vertical={false} strokeDasharray='4 4' />
-            <XAxis
-              dataKey='month'
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <YAxis
-              dataKey='income'
-              width={45}
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value + 'K'}
-            />
-            <ChartTooltip cursor={false} content={<CustomTooltip />} />
-            <Bar
-              dataKey='outcome'
-              fill='var(--color-outcome)'
-              radius={4}
-              barSize={6.03}
-            />
-            <Bar
-              dataKey='income'
-              fill='var(--color-income)'
-              radius={4}
-              barSize={6.03}
-            />
-          </BarChart>
-        </ChartContainer>
+            <ResponsiveContainer width='100%' height={300}>
+              <BarChart data={animatedChartData} className='text-purple-200'>
+                <CartesianGrid vertical={false} strokeDasharray='4 4' />
+                <XAxis
+                  dataKey='month'
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  tickFormatter={(value: string) => value.slice(0, 3)}
+                />
+                <YAxis
+                  width={45}
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  tickFormatter={(value: number) => `${value}K`}
+                />
+                <ChartTooltip cursor={false} content={<CustomTooltip />} />
+                <Bar
+                  dataKey='outcome'
+                  fill='var(--color-outcome)'
+                  radius={4}
+                  barSize={6.03}
+                  shape={<AnimatedBar />}
+                />
+                <Bar
+                  dataKey='income'
+                  fill='var(--color-income)'
+                  radius={4}
+                  barSize={6.03}
+                  shape={<AnimatedBar />}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </motion.div>
       </CardContent>
     </Card>
   );
 }
+
+const AnimatedBar = (props: any) => {
+  const { x, y, width, height, fill } = props;
+
+  return (
+    <motion.rect
+      initial={{ height: 0, y: y + height }}
+      animate={{ height, y }}
+      transition={{ duration: 1, ease: 'easeOut' }}
+      x={x}
+      width={width}
+      fill={fill}
+      rx={4}
+    />
+  );
+};

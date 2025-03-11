@@ -24,7 +24,7 @@ const SummaryCard = (props: ISummaryCardProps) => {
       <div className='flex items-end gap-[15px] md:gap-0 justify-between'>
         <div
           className={cn(
-            'flex justify-center items-center size-10 rounded-[4px] bg-amber-400',
+            'flex justify-center items-center size-10 rounded-[4px]',
             {
               'bg-background-icon-income':
                 label.toLowerCase() === 'Total Income'.toLowerCase(),

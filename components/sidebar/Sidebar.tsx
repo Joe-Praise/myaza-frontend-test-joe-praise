@@ -42,7 +42,8 @@ function Sidebar(props: ISidebarProps) {
       {/* Sidebar */}
       <section
         className={cn(
-          `w-full flex flex-col shadow-md dark:shadow-gray-700 bg-primary-100 text-white transition-all md:w-[293px] md:min-w-60 md:static fixed top-0 left-0 h-screen z-50 py-3`,
+          `w-full flex flex-col shadow-md dark:shadow-gray-700 bg-primary-100 text-white transition-all duration-100 
+                ease-out md:w-[293px] md:min-w-60 md:static fixed top-0 left-0 h-screen z-50 py-3`,
           {
             'w-[293px]': isOpen,
             'w-0 min-w-0 max-w-0 md:max-w-[293px]': !isOpen,
