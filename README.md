@@ -21,6 +21,7 @@ Tech stack i used on the project were
 - Axios & Tanstack for API calls
 - Lucide react for a limited number of icons
 - Formik and Yup for form handling and validation
+- Framer Motion for animations
 
 Application is mobile responsive. feel free to check that out.
 
