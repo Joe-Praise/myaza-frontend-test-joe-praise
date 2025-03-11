@@ -28,7 +28,7 @@ const useLogin = (options = {}) => {
     setTimeout(() => {
       router.push(routes.dashboard.entry.path);
       window.location.href = routes.dashboard.entry.path;
-    }, 1000);
+    }, 2000);
   }
 
   const { mutate, isPending, data, isSuccess } = useMutation({
@@ -50,10 +50,11 @@ const useLogin = (options = {}) => {
     ...options,
     onSuccess: (response: any) => {
       console.log('Response:', response);
+      successToast('Sign in successful');
       setTimeout(() => {
         router.push(routes.dashboard.entry.path);
         window.location.href = routes.dashboard.entry.path;
-      }, 1000);
+      }, 2000);
     },
     onError: (err: unknown) => {
       console.log('🚀 ~ useLogin ~ err:', err);
