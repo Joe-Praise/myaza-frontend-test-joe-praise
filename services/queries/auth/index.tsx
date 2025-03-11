@@ -7,13 +7,11 @@ import {
 } from '../../helpers';
 import { setCookie } from 'nookies';
 import queryKey from './keys';
-// import { routes } from '../../../navigation';
+
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { routes } from '@/navigation';
 import axios from 'axios';
-
-// const BASE_URL = '/auth';
 
 type Request = {
   url: string;

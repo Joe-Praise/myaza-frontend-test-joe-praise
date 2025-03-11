@@ -6,7 +6,7 @@ export function middleware(req: NextRequest) {
   // If the email cookie is missing, we redirect to /sign-in
   if (!email) {
     const url = new URL('/sign-in', req.nextUrl.origin);
-    return NextResponse.redirect(new URL(url, req.nextUrl.origin));
+    return NextResponse.redirect(url);
   }
 
   // Continue as normal if email exists
