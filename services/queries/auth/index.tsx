@@ -11,7 +11,7 @@ import queryKey from './keys';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { routes } from '@/navigation';
-import axios from 'axios';
+// import axios from 'axios';
 
 type Request = {
   url: string;
@@ -20,46 +20,38 @@ type Request = {
 };
 
 const useLogin = (options = {}) => {
-  const navigate = useRouter();
+  const router = useRouter();
 
   const handleLogin = () => {
     successToast('Sign in successful');
-    navigate.push(routes.dashboard.entry.path);
+    console.log('Redirecting to', routes.dashboard.entry.path);
+    router.push(routes.dashboard.entry.path);
   };
 
   const { mutate, isPending, data, isSuccess } = useMutation({
     mutationFn: async (args: Request) => {
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve('Success!');
-        }, 1500);
-      });
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       if (args.body?.email) {
         setCookie(null, 'email', args.body.email, {
           maxAge: 7 * 24 * 60 * 60,
           path: '/',
         });
-        //   saveSessionStorage(args.body.email, 'email');
       }
 
-      const response = await axios.post(args.url, args.body);
-      return response;
+      return { succeeded: true };
     },
     mutationKey: [queryKey.login],
     ...options,
     onSuccess: (response: any) => {
+      console.log('Response:', response);
       if (response.succeeded) {
-        //   saveLocalStorage(response.data, config.tokenKey);
-        successToast('Sign in successful');
-        console.log('response', response);
         handleLogin();
       }
     },
     onError: (err: unknown) => {
       console.log('🚀 ~ useLogin ~ err:', err);
       handleLogin();
-      //   errorToast(handleErrors(err));
     },
   });
 
