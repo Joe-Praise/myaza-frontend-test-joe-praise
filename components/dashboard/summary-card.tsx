@@ -43,14 +43,11 @@ const SummaryCard = (props: ISummaryCardProps) => {
           <p className='text-sm leading-[20px] text-purple-200'>{label}</p>
           <p className='font-semibold text-2xl leading-[28.06px]'>
             {currencySymbol}
-
             <CountUp
               end={amount}
-              // enableScrollSpy
               decimalPlaces={3}
               decimals={3}
               decimal='.'
-              // scrollSpyDelay={1000}
               duration={2}
             />
             {/* {formatAmount(amount)} */}

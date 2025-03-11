@@ -14,7 +14,7 @@ interface ISidebarProps {
 
 function Sidebar(props: ISidebarProps) {
   const { children } = props;
-  const { isOpen, toggleSidebar, closeSidebar } = useNavBarStore();
+  const { isOpen, isIcons, toggleSidebar, closeSidebar } = useNavBarStore();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const isMobile = useIsMobile();
@@ -42,10 +42,11 @@ function Sidebar(props: ISidebarProps) {
       {/* Sidebar */}
       <section
         className={cn(
-          ` w-full flex flex-col shadow-md dark:shadow-gray-700 bg-primary-100 text-white transition-all md:w-[293px] md:min-w-60 md:static fixed top-0 left-0 h-screen z-50  py-3`,
+          `w-full flex flex-col shadow-md dark:shadow-gray-700 bg-primary-100 text-white transition-all md:w-[293px] md:min-w-60 md:static fixed top-0 left-0 h-screen z-50 py-3`,
           {
             'w-[293px]': isOpen,
             'w-0 min-w-0 max-w-0 md:max-w-[293px]': !isOpen,
+            'md:w-max md:min-w-max md:max-w-auto px-2': isIcons,
           }
         )}
       >
@@ -73,8 +74,9 @@ function Sidebar(props: ISidebarProps) {
 
         <main
           className={cn('flex flex-col h-full overflow-hidden w-0 mx-auto', {
-            'w-[237px] mx-auto': isOpen,
-            'md:w-[237px] ': !isOpen,
+            'w-[237px] mx-auto': isOpen && !isIcons,
+            'md:w-[237px] ': !isOpen && !isIcons,
+            'md:w-auto': isIcons,
           })}
         >
           {children}

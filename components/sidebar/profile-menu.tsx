@@ -23,8 +23,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import Image from 'next/image';
 import { destroyCookie } from 'nookies';
 import { routes } from '@/navigation';
+import { useNavBarStore } from '@/store';
+import { cn } from '@/lib/utils';
 
 export function ProfileMenu() {
+  const { isIcons } = useNavBarStore();
+
   const handleLogOut = async () => {
     try {
       await new Promise((resolve) => {
@@ -43,7 +47,11 @@ export function ProfileMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className='bg-transparent justify-start items-center focus:border focus:outline-none max-w-[237px] w-full'>
-          <div className='flex gap-3 w-full'>
+          <div
+            className={cn('flex gap-3 w-full', {
+              'justify-center': isIcons,
+            })}
+          >
             <div className=''>
               <Avatar>
                 <AvatarImage
@@ -55,22 +63,24 @@ export function ProfileMenu() {
                 </AvatarFallback>
               </Avatar>
             </div>
-            <div className='w-full flex items-center justify-between'>
-              <div className='flex flex-col items-start justify-center  text-white'>
-                <p className='font-bold text-[18px] leading-[18.7px] font-karla'>
-                  Ali Riaz
-                </p>
-                <p className=' leading-[16.37px] text-[14px] font-karla'>
-                  Ali Riaz
-                </p>
+            {!isIcons && (
+              <div className='w-full flex items-center justify-between'>
+                <div className='flex flex-col items-start justify-center  text-white'>
+                  <p className='font-bold text-[18px] leading-[18.7px] font-karla'>
+                    Ali Riaz
+                  </p>
+                  <p className=' leading-[16.37px] text-[14px] font-karla'>
+                    Ali Riaz
+                  </p>
+                </div>
+                <div>
+                  <Image
+                    src={arrowDown}
+                    alt='arrow down icon representing the presence of a menu or drop down'
+                  />
+                </div>
               </div>
-              <div>
-                <Image
-                  src={arrowDown}
-                  alt='arrow down icon representing the presence of a menu or drop down'
-                />
-              </div>
-            </div>
+            )}
           </div>
         </Button>
       </DropdownMenuTrigger>

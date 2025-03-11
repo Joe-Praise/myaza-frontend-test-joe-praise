@@ -147,7 +147,7 @@ const Page = () => {
                 Your consolidated balance
               </p>
               <p className='font-semibold text-[23px] md:text-[28px] leading-[28.06px]'>
-                ${' '}
+                $
                 <CountUp
                   end={34780267.08}
                   decimalPlaces={2}

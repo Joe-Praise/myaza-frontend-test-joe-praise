@@ -67,7 +67,11 @@ const appRoutes: Route[] = [
   },
   { name: '', path: '', icon: <></> },
 
-  { name: 'Help center', path: '/', icon: <Headset /> },
+  {
+    name: 'Help center',
+    path: routes.dashboard.help_center.path,
+    icon: <Headset />,
+  },
 ];
 
 export default appRoutes;

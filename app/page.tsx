@@ -6,8 +6,9 @@ const Page = async () => {
   const email = cookieStore.get('email')?.value;
   if (!email) {
     redirect('/sign-ip');
+  } else {
+    redirect('/dashboard');
   }
-  return null;
 };
 
 export default Page;

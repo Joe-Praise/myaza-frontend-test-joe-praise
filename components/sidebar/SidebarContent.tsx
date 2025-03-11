@@ -8,17 +8,35 @@ import { Separator } from '../ui/seperator';
 import { Moon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
+import { useNavBarStore } from '@/store';
+import { cn } from '@/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../ui/tooltip';
 
 export default function SidebarContent() {
   const { setTheme } = useTheme();
+  const { isIcons } = useNavBarStore();
+
   const [mode, setMode] = useState('light');
 
   useEffect(() => {
     setTheme(mode);
   }, [mode, setTheme]);
+
   return (
     <section className='h-full flex flex-col gap-6 w-full'>
-      <header className='flex items-center  mt-10 mb-[19px] mb:mb-[39.54px] ps-[28px] border-b-0 md:pt-0'>
+      <header
+        className={cn(
+          'w-full flex items-center mt-10 mb-[19px]  ps-[28px] border-b-0 md:pt-0',
+          {
+            'ps-0 justify-center': isIcons,
+          }
+        )}
+      >
         <Logo>
           <Image
             src={logo2}
@@ -40,27 +58,51 @@ export default function SidebarContent() {
 
           return (
             <NavLink
-              key={`${route.path}-#${i}`}
+              key={`${route.path}-#${i}__${route.name}`}
               to={route.path}
-              className='flex items-center gap-3'
+              name={route.name}
+              className={cn('flex items-center gap-3', {
+                'justify-center w-[80%] mx-auto': isIcons,
+              })}
             >
               <span>{route.icon}</span>
-              <span className='pt-1'>{route.name}</span>
+              {!isIcons && <span className='pt-1'>{route.name}</span>}
             </NavLink>
           );
         })}
 
-        <button
-          className='flex justify-start items-center gap-3 w-full rounded-[8px] mt-2 ps-[16px] py-2.5 hover:bg-nav-active hover:text-primary-100 hover:font-semibold bg-transparent leading-[18.7px]'
-          onClick={() =>
-            setMode((prev) => (prev === 'dark' ? 'light' : 'dark'))
-          }
-        >
-          <span>
-            <Moon />
-          </span>
-          <span className='pt-1'>Dark Theme</span>
-        </button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                className={cn(
+                  'flex justify-start items-center gap-3 w-full rounded-[8px] mt-2 ps-[16px] py-2.5 hover:bg-nav-active hover:text-primary-100 hover:font-semibold bg-transparent leading-[18.7px]',
+                  {
+                    'justify-center w-[80%] mx-auto ps-0': isIcons,
+                  }
+                )}
+                onClick={() =>
+                  setMode((prev) => (prev === 'dark' ? 'light' : 'dark'))
+                }
+              >
+                <span>
+                  <Moon />
+                </span>
+                {!isIcons && <span className='pt-1'>Dark Theme</span>}
+              </button>
+            </TooltipTrigger>
+            {isIcons && (
+              <TooltipContent
+                avoidCollisions
+                side='right'
+                align='center'
+                className='py-2 text-nav-active'
+              >
+                <p className='text-[18px] font-karla'>Dark Theme</p>
+              </TooltipContent>
+            )}
+          </Tooltip>
+        </TooltipProvider>
       </section>
     </section>
   );
